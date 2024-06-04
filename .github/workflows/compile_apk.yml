@@ -64,6 +64,7 @@ jobs:
       - name: Dependencies
         working-directory: ${{ env.APK_BUILD_DIR }}/app
         run: flutter pub get
+        run: flutter pub upgrade
 
       - name: Build APK
         working-directory: ${{ env.APK_BUILD_DIR }}/app
