@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, unnecessary_cast
+// ignore_for_file: unused_element, unnecessary_cast, override_on_non_overriding_member
 // ignore_for_file: strict_raw_type, inference_failure_on_untyped_parameter
 
 part of 'info_dto.dart';
@@ -26,19 +26,16 @@ class InfoDtoMapper extends ClassMapperBase<InfoDto> {
   static String? _$version(InfoDto v) => v.version;
   static const Field<InfoDto, String> _f$version = Field('version', _$version);
   static String? _$deviceModel(InfoDto v) => v.deviceModel;
-  static const Field<InfoDto, String> _f$deviceModel =
-      Field('deviceModel', _$deviceModel);
+  static const Field<InfoDto, String> _f$deviceModel = Field('deviceModel', _$deviceModel);
   static DeviceType? _$deviceType(InfoDto v) => v.deviceType;
-  static const Field<InfoDto, DeviceType> _f$deviceType =
-      Field('deviceType', _$deviceType);
+  static const Field<InfoDto, DeviceType> _f$deviceType = Field('deviceType', _$deviceType);
   static String? _$fingerprint(InfoDto v) => v.fingerprint;
-  static const Field<InfoDto, String> _f$fingerprint =
-      Field('fingerprint', _$fingerprint);
+  static const Field<InfoDto, String> _f$fingerprint = Field('fingerprint', _$fingerprint);
   static bool? _$download(InfoDto v) => v.download;
   static const Field<InfoDto, bool> _f$download = Field('download', _$download);
 
   @override
-  final Map<Symbol, Field<InfoDto, dynamic>> fields = const {
+  final MappableFields<InfoDto> fields = const {
     #alias: _f$alias,
     #version: _f$version,
     #deviceModel: _f$deviceModel,
@@ -71,17 +68,14 @@ class InfoDtoMapper extends ClassMapperBase<InfoDto> {
 
 mixin InfoDtoMappable {
   String serialize() {
-    return InfoDtoMapper.ensureInitialized()
-        .encodeJson<InfoDto>(this as InfoDto);
+    return InfoDtoMapper.ensureInitialized().encodeJson<InfoDto>(this as InfoDto);
   }
 
   Map<String, dynamic> toJson() {
-    return InfoDtoMapper.ensureInitialized()
-        .encodeMap<InfoDto>(this as InfoDto);
+    return InfoDtoMapper.ensureInitialized().encodeMap<InfoDto>(this as InfoDto);
   }
 
-  InfoDtoCopyWith<InfoDto, InfoDto, InfoDto> get copyWith =>
-      _InfoDtoCopyWithImpl(this as InfoDto, $identity, $identity);
+  InfoDtoCopyWith<InfoDto, InfoDto, InfoDto> get copyWith => _InfoDtoCopyWithImpl(this as InfoDto, $identity, $identity);
   @override
   String toString() {
     return InfoDtoMapper.ensureInitialized().stringifyValue(this as InfoDto);
@@ -89,10 +83,7 @@ mixin InfoDtoMappable {
 
   @override
   bool operator ==(Object other) {
-    return identical(this, other) ||
-        (runtimeType == other.runtimeType &&
-            InfoDtoMapper.ensureInitialized()
-                .isValueEqual(this as InfoDto, other));
+    return InfoDtoMapper.ensureInitialized().equalsValue(this as InfoDto, other);
   }
 
   @override
@@ -102,30 +93,19 @@ mixin InfoDtoMappable {
 }
 
 extension InfoDtoValueCopy<$R, $Out> on ObjectCopyWith<$R, InfoDto, $Out> {
-  InfoDtoCopyWith<$R, InfoDto, $Out> get $asInfoDto =>
-      $base.as((v, t, t2) => _InfoDtoCopyWithImpl(v, t, t2));
+  InfoDtoCopyWith<$R, InfoDto, $Out> get $asInfoDto => $base.as((v, t, t2) => _InfoDtoCopyWithImpl(v, t, t2));
 }
 
-abstract class InfoDtoCopyWith<$R, $In extends InfoDto, $Out>
-    implements ClassCopyWith<$R, $In, $Out> {
-  $R call(
-      {String? alias,
-      String? version,
-      String? deviceModel,
-      DeviceType? deviceType,
-      String? fingerprint,
-      bool? download});
+abstract class InfoDtoCopyWith<$R, $In extends InfoDto, $Out> implements ClassCopyWith<$R, $In, $Out> {
+  $R call({String? alias, String? version, String? deviceModel, DeviceType? deviceType, String? fingerprint, bool? download});
   InfoDtoCopyWith<$R2, $In, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t);
 }
 
-class _InfoDtoCopyWithImpl<$R, $Out>
-    extends ClassCopyWithBase<$R, InfoDto, $Out>
-    implements InfoDtoCopyWith<$R, InfoDto, $Out> {
+class _InfoDtoCopyWithImpl<$R, $Out> extends ClassCopyWithBase<$R, InfoDto, $Out> implements InfoDtoCopyWith<$R, InfoDto, $Out> {
   _InfoDtoCopyWithImpl(super.value, super.then, super.then2);
 
   @override
-  late final ClassMapperBase<InfoDto> $mapper =
-      InfoDtoMapper.ensureInitialized();
+  late final ClassMapperBase<InfoDto> $mapper = InfoDtoMapper.ensureInitialized();
   @override
   $R call(
           {String? alias,
@@ -152,6 +132,5 @@ class _InfoDtoCopyWithImpl<$R, $Out>
       download: data.get(#download, or: $value.download));
 
   @override
-  InfoDtoCopyWith<$R2, InfoDto, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) =>
-      _InfoDtoCopyWithImpl($value, $cast, t);
+  InfoDtoCopyWith<$R2, InfoDto, $Out2> $chain<$R2, $Out2>(Then<$Out2, $R2> t) => _InfoDtoCopyWithImpl($value, $cast, t);
 }

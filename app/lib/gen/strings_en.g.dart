@@ -100,7 +100,7 @@ class _StringsGeneralEn {
 	String get save => 'Save';
 	String get unchanged => 'Unchanged';
 	String get unknown => 'Unknown';
-	String get noItemInClipboard => 'No items in Clipboard';
+	String get noItemInClipboard => 'No items in Clipboard.';
 }
 
 // Path: receiveTab
@@ -159,7 +159,7 @@ class _StringsTroubleshootPageEn {
 
 	// Translations
 	String get title => 'Troubleshoot';
-	String get subTitle => 'Does the app not work as expected? Here you can find some common solutions.';
+	String get subTitle => 'Does the app not work as expected? Here you can find some common solutions to problems.';
 	String get solution => 'Solution:';
 	String get fixButton => 'Fix automatically';
 	late final _StringsTroubleshootPageFirewallEn firewall = _StringsTroubleshootPageFirewallEn._(_root);
@@ -230,7 +230,7 @@ class _StringsReceiveOptionsPageEn {
 	String get destination => _root.settingsTab.receive.destination;
 	String get appDirectory => '(LocalSend folder)';
 	String get saveToGallery => _root.settingsTab.receive.saveToGallery;
-	String get saveToGalleryOff => 'Turned off automatically because there are directories.';
+	String get saveToGalleryOff => 'Turned off automatically because there are folders.';
 }
 
 // Path: sendPage
@@ -242,6 +242,7 @@ class _StringsSendPageEn {
 	// Translations
 	String get waiting => 'Waiting for response...';
 	String get rejected => 'The recipient has rejected the request.';
+	String get tooManyAttempts => _root.web.tooManyAttempts;
 	String get busy => 'The recipient is busy with another request.';
 }
 
@@ -277,6 +278,8 @@ class _StringsWebSharePageEn {
 	String get noRequests => 'No requests yet.';
 	String get encryption => _root.settingsTab.network.encryption;
 	String get autoAccept => 'Automatically accept requests';
+	String get requirePin => 'Require PIN';
+	String pinHint({required Object pin}) => 'The PIN is "${pin}"';
 	String get encryptionHint => 'LocalSend uses a self-signed certificate. You need to accept it in your browser.';
 	String pendingRequests({required Object n}) => 'Pending requests: ${n}';
 }
@@ -429,6 +432,7 @@ class _StringsDialogsEn {
 	late final _StringsDialogsQrEn qr = _StringsDialogsQrEn._(_root);
 	late final _StringsDialogsQuickActionsEn quickActions = _StringsDialogsQuickActionsEn._(_root);
 	late final _StringsDialogsQuickSaveNoticeEn quickSaveNotice = _StringsDialogsQuickSaveNoticeEn._(_root);
+	late final _StringsDialogsPinEn pin = _StringsDialogsPinEn._(_root);
 	late final _StringsDialogsSendModeHelpEn sendModeHelp = _StringsDialogsSendModeHelpEn._(_root);
 	late final _StringsDialogsZoomEn zoom = _StringsDialogsZoomEn._(_root);
 }
@@ -463,6 +467,9 @@ class _StringsWebEn {
 
 	// Translations
 	String get waiting => _root.sendPage.waiting;
+	String get enterPin => 'Enter PIN';
+	String get invalidPin => 'Invalid PIN';
+	String get tooManyAttempts => 'Too many attempts';
 	String get rejected => 'Rejected';
 	String get files => 'Files';
 	String get fileName => 'File name';
@@ -572,9 +579,10 @@ class _StringsSettingsTabGeneralEn {
 	String get language => 'Language';
 	late final _StringsSettingsTabGeneralLanguageOptionsEn languageOptions = _StringsSettingsTabGeneralLanguageOptionsEn._(_root);
 	String get saveWindowPlacement => 'Quit: Save window placement';
-	String get minimizeToTray => 'Quit: Minimize to Tray/Menu Bar';
+	String get minimizeToTray => 'Minimize to the System Tray/Menu Bar when closing';
 	String get launchAtStartup => 'Autostart after login';
 	String get launchMinimized => 'Autostart: Start hidden';
+	String get showInContextMenu => 'Show LocalSend in context menu';
 	String get animations => 'Animations';
 }
 
@@ -587,8 +595,9 @@ class _StringsSettingsTabReceiveEn {
 	// Translations
 	String get title => 'Receive';
 	String get quickSave => _root.general.quickSave;
+	String get requirePin => _root.webSharePage.requirePin;
 	String get autoFinish => 'Auto Finish';
-	String get destination => 'Destination';
+	String get destination => 'Save to folder';
 	String get downloads => '(Downloads)';
 	String get saveToGallery => 'Save media to gallery';
 	String get saveToHistory => 'Save to history';
@@ -602,7 +611,7 @@ class _StringsSettingsTabSendEn {
 
 	// Translations
 	String get title => 'Send';
-	String get shareViaLinkAutoAccept => 'Share via link: Auto accept';
+	String get shareViaLinkAutoAccept => 'Automatically accept requests in "Share via link" mode';
 }
 
 // Path: settingsTab.network
@@ -622,7 +631,7 @@ class _StringsSettingsTabNetworkEn {
 	String get discoveryTimeout => 'Discovery Timeout';
 	String portWarning({required Object defaultPort}) => 'You might not be detected by other devices because you are using a custom port. (default: ${defaultPort})';
 	String get encryption => 'Encryption';
-	String get multicastGroup => 'Multicast';
+	String get multicastGroup => 'Multicast address';
 	String multicastGroupWarning({required Object defaultMulticast}) => 'You might not be detected by other devices because you are using a custom multicast address. (default: ${defaultMulticast})';
 }
 
@@ -647,7 +656,7 @@ class _StringsTroubleshootPageFirewallEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get symptom => 'This app can send files to other devices; but other devices cannot send files to this device.';
+	String get symptom => 'This device can send files to other devices but other devices cannot send files to this device.';
 	String solution({required Object port}) => 'This is most likely a firewall issue. You can solve this by allowing incoming connections (UDP and TCP) on port ${port}.';
 	String get openFirewall => 'Open Firewall';
 }
@@ -660,7 +669,7 @@ class _StringsTroubleshootPageNoConnectionEn {
 
 	// Translations
 	String get symptom => 'Both devices cannot discover each other nor can they share files.';
-	String get solution => 'Does the problem exist on both sides? If so, you need to make sure that both devices are on the same Wi-Fi network and share the same configuration (port, multicast address, encryption). The network may not allow communication between participants. In this case, this option must be enabled on the router.';
+	String get solution => 'Does the problem exist on both sides? If so, you need to make sure that both devices are on the same Wi-Fi network and share the same configuration (port, multicast address, encryption). The Wi-Fi network may not allow communication between participants. In this case, this option must be enabled on the router.';
 }
 
 // Path: receiveHistoryPage.entryActions
@@ -671,6 +680,7 @@ class _StringsReceiveHistoryPageEntryActionsEn {
 
 	// Translations
 	String get open => 'Open file';
+	String get showInFolder => 'Show in folder';
 	String get info => 'Information';
 	String get deleteFromHistory => 'Delete from history';
 }
@@ -860,7 +870,7 @@ class _StringsDialogsNoFilesEn {
 	final Translations _root; // ignore: unused_field
 
 	// Translations
-	String get title => 'No file selected';
+	String get title => 'No files selected';
 	String get content => 'Please select at least one file.';
 }
 
@@ -922,6 +932,16 @@ class _StringsDialogsQuickSaveNoticeEn {
 	String get content => 'File requests are automatically accepted. Be aware that everyone on the local network can send you files.';
 }
 
+// Path: dialogs.pin
+class _StringsDialogsPinEn {
+	_StringsDialogsPinEn._(this._root);
+
+	final Translations _root; // ignore: unused_field
+
+	// Translations
+	String get title => 'Enter PIN';
+}
+
 // Path: dialogs.sendModeHelp
 class _StringsDialogsSendModeHelpEn {
 	_StringsDialogsSendModeHelpEn._(this._root);
@@ -930,8 +950,8 @@ class _StringsDialogsSendModeHelpEn {
 
 	// Translations
 	String get title => 'Send modes';
-	String get single => 'Sends files to one recipient. Selection will be cleared after finished file transfer.';
-	String get multiple => 'Sends files to multiple recipients. Selection will not be cleared.';
+	String get single => 'Sends files to one recipient. Selection will be cleared after finished files transfer.';
+	String get multiple => 'Sends files to multiple recipients. Selection will not be cleared after finished files transfer.';
 	String get link => 'Recipients who do not have LocalSend installed can download the selected files by opening the link in their browser.';
 }
 

@@ -50,6 +50,7 @@
         <string>es-ES</string>
         <string>eu</string>
         <string>fa</string>
+        <string>fi</string>
         <string>fil-PH</string>
         <string>fr</string>
         <string>he</string>
@@ -94,6 +95,27 @@
         <string>_http._tcp</string>
         <string>_bonjour._tcp</string>
         <string>_lnp._tcp.</string>
+    </array>
+
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeExtensions</key>
+            <array>
+                <string>*</string>
+            </array>
+            <key>CFBundleTypeName</key>
+            <string>Any File</string>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
+            <key>CFBundleTypeRole</key>
+            <string>Viewer</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>public.data</string>
+                <string>public.content</string>
+            </array>
+        </dict>
     </array>
 </dict>
 </plist>

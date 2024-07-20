@@ -6,7 +6,9 @@ import 'package:common/common.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/util/file_path_helper.dart';
 import 'package:localsend_app/util/native/cache_helper.dart';
+import 'package:localsend_app/util/native/content_uri_helper.dart';
 import 'package:localsend_app/util/native/cross_file_converters.dart';
+import 'package:localsend_app/util/native/pick_directory.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:refena_flutter/refena_flutter.dart';
@@ -47,6 +49,8 @@ class AddMessageAction extends ReduxAction<SelectedSendingFilesNotifier, List<Cr
       asset: null,
       path: null,
       bytes: bytes,
+      lastModified: null,
+      lastAccessed: null,
     );
 
     return List.unmodifiable([
@@ -96,6 +100,8 @@ class AddBinaryAction extends ReduxAction<SelectedSendingFilesNotifier, List<Cro
       asset: null,
       path: null,
       bytes: bytes,
+      lastModified: null,
+      lastAccessed: null,
     );
 
     return List.unmodifiable([
@@ -158,12 +164,74 @@ class AddDirectoryAction extends AsyncReduxAction<SelectedSendingFilesNotifier, 
           asset: null,
           path: entity.path,
           bytes: null,
+          lastModified: entity.lastModifiedSync().toUtc(),
+          lastAccessed: entity.lastAccessedSync().toUtc(),
         );
 
         final isAlreadySelect = state.any((element) => element.isSameFile(otherFile: file));
         if (!isAlreadySelect) {
           newFiles.add(file);
         }
+      }
+    }
+
+    return List.unmodifiable([
+      ...state,
+      ...newFiles,
+    ]);
+  }
+}
+
+/// A special [AddDirectoryAction] specifically for Android.
+class AddAndroidDirectoryAction extends AsyncReduxAction<SelectedSendingFilesNotifier, List<CrossFile>> {
+  final PickDirectoryResult result;
+
+  AddAndroidDirectoryAction(this.result);
+
+  @override
+  Future<List<CrossFile>> reduce() async {
+    final newFiles = <CrossFile>[];
+    _logger.info('Reading files in ${result.directoryUri}');
+
+    final basePath = ContentUriHelper.getFolderPathFromContentUri(result.directoryUri);
+    if (basePath == null) {
+      _logger.warning('Could not get base path from ${result.directoryUri}');
+      return state;
+    }
+    final folderName = ContentUriHelper.getEntityNameFromPath(basePath);
+    if (folderName == null) {
+      _logger.warning('Could not get folder name from $basePath');
+      return state;
+    }
+
+    for (final file in result.files) {
+      final relative = ContentUriHelper.guessRelativePathFromPickedFileContentUri(
+        folderContentUri: result.directoryUri,
+        basePath: basePath,
+        folderName: folderName,
+        uri: file.uri,
+      );
+      if (relative == null) {
+        _logger.warning('Could not get relative path from ${file.uri}');
+        continue;
+      }
+      _logger.info('Add file $relative (${file.uri})');
+
+      final crossFile = CrossFile(
+        name: relative,
+        fileType: file.name.guessFileType(),
+        size: file.size,
+        thumbnail: null,
+        asset: null,
+        path: file.uri,
+        bytes: null,
+        lastModified: DateTime.fromMillisecondsSinceEpoch(file.lastModified, isUtc: true),
+        lastAccessed: null,
+      );
+
+      final isAlreadySelect = state.any((element) => element.isSameFile(otherFile: crossFile));
+      if (!isAlreadySelect) {
+        newFiles.add(crossFile);
       }
     }
 
@@ -190,6 +258,40 @@ class RemoveSelectedFileAction extends ReduxAction<SelectedSendingFilesNotifier,
     if (state.isEmpty) {
       global.dispatchAsync(ClearCacheAction()); // ignore: discarded_futures
     }
+  }
+}
+
+/// Loads the selection from the arguments of the app start.
+/// Returns `true` if files were added.
+class LoadSelectionFromArgsAction extends AsyncReduxActionWithResult<SelectedSendingFilesNotifier, List<CrossFile>, bool> {
+  final List<String> args;
+
+  LoadSelectionFromArgsAction(this.args);
+
+  @override
+  Future<(List<CrossFile>, bool)> reduce() async {
+    bool filesAdded = false;
+    for (final arg in args) {
+      if (arg.startsWith('-')) {
+        continue;
+      }
+
+      final file = File(arg);
+      final directory = Directory(arg);
+
+      if (file.existsSync()) {
+        await dispatchAsync(AddFilesAction(
+          files: [file],
+          converter: CrossFileConverters.convertFile,
+        ));
+        filesAdded = true;
+      } else if (directory.existsSync()) {
+        await dispatchAsync(AddDirectoryAction(arg));
+        filesAdded = true;
+      }
+    }
+
+    return (state, filesAdded);
   }
 }
 

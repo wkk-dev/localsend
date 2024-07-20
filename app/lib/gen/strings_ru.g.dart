@@ -67,7 +67,7 @@ class _StringsGeneralRu extends _StringsGeneralEn {
 	@override String get close => 'Закрыть';
 	@override String get confirm => 'Подтвердить';
 	@override String get continueStr => 'Продолжить';
-	@override String get copy => 'Скопировать';
+	@override String get copy => 'Копировать';
 	@override String get copiedToClipboard => 'Скопировано в буфер обмена';
 	@override String get decline => 'Отклонить';
 	@override String get done => 'Готово';
@@ -95,7 +95,7 @@ class _StringsGeneralRu extends _StringsGeneralEn {
 	@override String get save => 'Сохранить';
 	@override String get unchanged => 'Без изменений';
 	@override String get unknown => 'Неизвестно';
-	@override String get noItemInClipboard => 'Буфер обмена пуст';
+	@override String get noItemInClipboard => 'Буфер обмена пуст.';
 }
 
 // Path: receiveTab
@@ -119,13 +119,13 @@ class _StringsSendTabRu extends _StringsSendTabEn {
 	@override String get title => 'Отправить';
 	@override late final _StringsSendTabSelectionRu selection = _StringsSendTabSelectionRu._(_root);
 	@override late final _StringsSendTabPickerRu picker = _StringsSendTabPickerRu._(_root);
-	@override String get shareIntentInfo => 'Также вы можете использовать функцию "Поделиться" вашего мобильного устройства для более быстрого выбора файлов.';
+	@override String get shareIntentInfo => 'Вы также можете воспользоваться функцией "Поделиться" на своём мобильном устройстве, чтобы быстрее выбирать файлы.';
 	@override String get nearbyDevices => 'Устройства поблизости';
 	@override String get thisDevice => 'Это устройство';
 	@override String get scan => 'Поиск устройств';
 	@override String get sendMode => 'Режим отправки';
 	@override late final _StringsSendTabSendModesRu sendModes = _StringsSendTabSendModesRu._(_root);
-	@override String get sendModeHelp => 'Примечание';
+	@override String get sendModeHelp => 'Справка';
 	@override String get help => 'Пожалуйста, убедитесь, что получатель находится в той же Wi-Fi сети, что и отправитель.';
 	@override String get placeItems => 'Добавьте файлы, чтобы поделиться.';
 }
@@ -153,8 +153,8 @@ class _StringsTroubleshootPageRu extends _StringsTroubleshootPageEn {
 	@override final _StringsRu _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Устранение неполадок';
-	@override String get subTitle => 'Это приложение не работает должным образом? Здесь вы найдёте общие решения проблем.';
+	@override String get title => 'Устранение неисправностей';
+	@override String get subTitle => 'Приложение не работает должным образом? Здесь вы можете найти некоторые распространенные решения проблем.';
 	@override String get solution => 'Решение:';
 	@override String get fixButton => 'Исправить автоматически';
 	@override late final _StringsTroubleshootPageFirewallRu firewall = _StringsTroubleshootPageFirewallRu._(_root);
@@ -237,6 +237,7 @@ class _StringsSendPageRu extends _StringsSendPageEn {
 	// Translations
 	@override String get waiting => 'Ожидание ответа...';
 	@override String get rejected => 'Получатель отклонил запрос.';
+	@override String get tooManyAttempts => _root.web.tooManyAttempts;
 	@override String get busy => 'Получатель занят другим запросом.';
 }
 
@@ -272,6 +273,8 @@ class _StringsWebSharePageRu extends _StringsWebSharePageEn {
 	@override String get noRequests => 'Запросов пока нет.';
 	@override String get encryption => _root.settingsTab.network.encryption;
 	@override String get autoAccept => 'Автоматически принимать запросы';
+	@override String get requirePin => 'Требовать PIN-код';
+	@override String pinHint({required Object pin}) => 'PIN-код: "${pin}"';
 	@override String get encryptionHint => 'LocalSend использует самоподписанный сертификат. Вам необходимо принять его в браузере.';
 	@override String pendingRequests({required Object n}) => 'Ожидающие запросы: ${n}';
 }
@@ -301,7 +304,7 @@ class _StringsDonationPageRu extends _StringsDonationPageEn {
 
 	// Translations
 	@override String get title => 'Пожертвовать';
-	@override String get info => 'LocalSend бесплатен, имеет открытый исходный код и не содержит рекламы. Если вам нравится приложение, вы можете поддержать его разработку пожертвованием.';
+	@override String get info => 'LocalSend — это бесплатное приложение с открытым исходным кодом и без рекламы. Если оно вам нравится, вы можете поддержать его разработку пожертвованием.';
 	@override String donate({required Object amount}) => 'Пожертвовать ${amount}';
 	@override String get thanks => 'Большое спасибо!';
 	@override String get restore => 'Восстановить покупку';
@@ -353,6 +356,7 @@ class _StringsDialogsRu extends _StringsDialogsEn {
 	@override late final _StringsDialogsQrRu qr = _StringsDialogsQrRu._(_root);
 	@override late final _StringsDialogsQuickActionsRu quickActions = _StringsDialogsQuickActionsRu._(_root);
 	@override late final _StringsDialogsQuickSaveNoticeRu quickSaveNotice = _StringsDialogsQuickSaveNoticeRu._(_root);
+	@override late final _StringsDialogsPinRu pin = _StringsDialogsPinRu._(_root);
 	@override late final _StringsDialogsSendModeHelpRu sendModeHelp = _StringsDialogsSendModeHelpRu._(_root);
 	@override late final _StringsDialogsZoomRu zoom = _StringsDialogsZoomRu._(_root);
 }
@@ -387,6 +391,9 @@ class _StringsWebRu extends _StringsWebEn {
 
 	// Translations
 	@override String get waiting => _root.sendPage.waiting;
+	@override String get enterPin => 'Введите PIN-код';
+	@override String get invalidPin => 'Неверный PIN-код';
+	@override String get tooManyAttempts => 'Слишком много попыток';
 	@override String get rejected => 'Отклонено';
 	@override String get files => 'Файлов';
 	@override String get fileName => 'Имя файла';
@@ -495,10 +502,11 @@ class _StringsSettingsTabGeneralRu extends _StringsSettingsTabGeneralEn {
 	@override late final _StringsSettingsTabGeneralColorOptionsRu colorOptions = _StringsSettingsTabGeneralColorOptionsRu._(_root);
 	@override String get language => 'Язык';
 	@override late final _StringsSettingsTabGeneralLanguageOptionsRu languageOptions = _StringsSettingsTabGeneralLanguageOptionsRu._(_root);
-	@override String get saveWindowPlacement => 'Сохранить расположение окна после закрытия';
-	@override String get minimizeToTray => 'Закрыть: свернуть в системный трей/строку меню';
+	@override String get saveWindowPlacement => 'Сохранять расположение окна после закрытия';
+	@override String get minimizeToTray => 'Сворачивать в системный трей/строку меню при закрытии';
 	@override String get launchAtStartup => 'Автозагрузка';
 	@override String get launchMinimized => 'Скрытая автозагрузка';
+	@override String get showInContextMenu => 'Отображать LocalSend в контекстном меню';
 	@override String get animations => 'Анимации';
 }
 
@@ -511,8 +519,9 @@ class _StringsSettingsTabReceiveRu extends _StringsSettingsTabReceiveEn {
 	// Translations
 	@override String get title => 'Получение';
 	@override String get quickSave => _root.general.quickSave;
+	@override String get requirePin => _root.webSharePage.requirePin;
 	@override String get autoFinish => 'Автозавершение';
-	@override String get destination => 'Сохранять в';
+	@override String get destination => 'Сохранять в папку';
 	@override String get downloads => '(Загрузки)';
 	@override String get saveToGallery => 'Сохранять медиафайлы в галерею';
 	@override String get saveToHistory => 'Сохранять историю';
@@ -526,7 +535,7 @@ class _StringsSettingsTabSendRu extends _StringsSettingsTabSendEn {
 
 	// Translations
 	@override String get title => 'Отправка';
-	@override String get shareViaLinkAutoAccept => 'Поделиться по ссылке: Принимать автоматически';
+	@override String get shareViaLinkAutoAccept => 'Автоматически принимать запросы в режиме "Поделиться по ссылке"';
 }
 
 // Path: settingsTab.network
@@ -546,8 +555,8 @@ class _StringsSettingsTabNetworkRu extends _StringsSettingsTabNetworkEn {
 	@override String get discoveryTimeout => 'Тайм-аут обнаружения';
 	@override String portWarning({required Object defaultPort}) => 'Другие устройства могут вас не обнаружить, поскольку вы используете пользовательский порт. (default: ${defaultPort})';
 	@override String get encryption => 'Шифрование';
-	@override String get multicastGroup => 'Мультивещание';
-	@override String multicastGroupWarning({required Object defaultMulticast}) => 'Другие устройства могут вас не обнаружить, поскольку вы используете пользовательский адрес мультивещания. (default: ${defaultMulticast})';
+	@override String get multicastGroup => 'Адрес мультивещание';
+	@override String multicastGroupWarning({required Object defaultMulticast}) => 'Другие устройства могут вас не обнаружить, поскольку вы используете другой, собственный адрес мультивещания. (default: ${defaultMulticast})';
 }
 
 // Path: settingsTab.other
@@ -571,8 +580,8 @@ class _StringsTroubleshootPageFirewallRu extends _StringsTroubleshootPageFirewal
 	@override final _StringsRu _root; // ignore: unused_field
 
 	// Translations
-	@override String get symptom => 'Это приложение может отправлять файлы на другие устройства, но другие устройства не могут отправлять файлы на это устройство.';
-	@override String solution({required Object port}) => 'Скорее всего, проблема с брандмауэром. Вы можете решить эту проблему, разрешив входящие соединения (UDP и TCP) для порта ${port}.';
+	@override String get symptom => 'Это устройство может отправлять файлы на другие устройства, но другие устройства не могут отправлять файлы на это устройство.';
+	@override String solution({required Object port}) => 'Скорее всего, это проблема брандмауэра. Вы можете решить эту проблему, разрешив входящие соединения (UDP и TCP) для порта ${port}.';
 	@override String get openFirewall => 'Открыть брандмауэр';
 }
 
@@ -584,7 +593,7 @@ class _StringsTroubleshootPageNoConnectionRu extends _StringsTroubleshootPageNoC
 
 	// Translations
 	@override String get symptom => 'Оба устройства не могут обнаружить друг друга и не могут обмениваться файлами.';
-	@override String get solution => 'Проблема с обеих сторон? Вам нужно убедиться, что оба устройства находятся в одной сети Wi-Fi и используют одинаковую конфигурацию (порт, адрес мультивещания, шифрование). Wi-Fi может не разрешать обмен (передачу) между участниками. В этом случае Вам необходимо включить данную опцию на своём маршрутизаторе.';
+	@override String get solution => 'Проблема существует с обеих сторон? Итак, вам нужно убедиться, что оба устройства находятся в одной Wi-Fi сети и имеют одинаковую конфигурацию (порт, адрес мультивещания, шифрование). Сеть Wi-Fi может не разрешать обмен (передачу) между участниками. В этом случае вам необходимо включить данную опцию на своём маршрутизаторе.';
 }
 
 // Path: receiveHistoryPage.entryActions
@@ -595,6 +604,7 @@ class _StringsReceiveHistoryPageEntryActionsRu extends _StringsReceiveHistoryPag
 
 	// Translations
 	@override String get open => 'Открыть файл';
+	@override String get showInFolder => 'Показать в папке';
 	@override String get info => 'Информация';
 	@override String get deleteFromHistory => 'Удалить из истории';
 }
@@ -784,7 +794,7 @@ class _StringsDialogsNoFilesRu extends _StringsDialogsNoFilesEn {
 	@override final _StringsRu _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Файлы не выбраны';
+	@override String get title => 'Не выбрано ни одного файла';
 	@override String get content => 'Пожалуйста, добавьте, как минимум, один файл.';
 }
 
@@ -846,6 +856,16 @@ class _StringsDialogsQuickSaveNoticeRu extends _StringsDialogsQuickSaveNoticeEn 
 	@override String get content => 'Запросы на получение файлов теперь принимаются автоматически. Будьте осторожны, все пользователи этой локальной сети могут отправлять вам файлы.';
 }
 
+// Path: dialogs.pin
+class _StringsDialogsPinRu extends _StringsDialogsPinEn {
+	_StringsDialogsPinRu._(_StringsRu root) : this._root = root, super._(root);
+
+	@override final _StringsRu _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Введите PIN-код';
+}
+
 // Path: dialogs.sendModeHelp
 class _StringsDialogsSendModeHelpRu extends _StringsDialogsSendModeHelpEn {
 	_StringsDialogsSendModeHelpRu._(_StringsRu root) : this._root = root, super._(root);
@@ -855,7 +875,7 @@ class _StringsDialogsSendModeHelpRu extends _StringsDialogsSendModeHelpEn {
 	// Translations
 	@override String get title => 'Режимы отправки';
 	@override String get single => 'Отправляет файлы одному получателю. Выборка будет очищена после завершения передачи файлов.';
-	@override String get multiple => 'Отправляет файлы нескольким получателям. Выборка не будет очищена.';
+	@override String get multiple => 'Отправляет файлы нескольким получателям. Выборка не будет очищена после завершения передачи файлов.';
 	@override String get link => 'Получатели, у которых не установлен LocalSend, могут загрузить выбранные файлы открыв ссылку в своем браузере.';
 }
 

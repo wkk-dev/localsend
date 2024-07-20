@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:common/common.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:localsend_app/model/cross_file.dart';
 import 'package:localsend_app/model/send_mode.dart';
 import 'package:localsend_app/model/state/send/send_session_state.dart';
@@ -17,9 +18,12 @@ import 'package:localsend_app/provider/progress_provider.dart';
 import 'package:localsend_app/provider/selection/selected_sending_files_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/api_route_builder.dart';
+import 'package:localsend_app/util/sleep.dart';
+import 'package:localsend_app/widget/dialogs/pin_dialog.dart';
 import 'package:logging/logging.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
+import 'package:uri_content/uri_content.dart';
 import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
@@ -74,6 +78,12 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
               preview: files.length == 1 && files.first.fileType == FileType.text && files.first.bytes != null
                   ? utf8.decode(files.first.bytes!) // send simple message by embedding it into the preview
                   : null,
+              metadata: file.lastModified != null || file.lastAccessed != null
+                  ? FileMetadata(
+                      lastModified: file.lastModified,
+                      lastAccessed: file.lastAccessed,
+                    )
+                  : null,
               legacy: target.version == '1.0',
             ),
             status: FileStatus.queue,
@@ -122,29 +132,84 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
       );
     }
 
-    final Response response;
-    try {
-      response = await requestDio.post(
-        ApiRoute.prepareUpload.target(target),
-        data: jsonEncode(requestDto), // jsonEncode for better logging
-        cancelToken: cancelToken,
-      );
-    } catch (e) {
-      if (e is DioException && e.response?.statusCode == 403) {
-        state = state.updateSession(
-          sessionId: sessionId,
-          state: (s) => s?.copyWith(
-            status: SessionStatus.declined,
-          ),
+    Response? response;
+    bool invalidPin;
+    bool pinFirstAttempt = true;
+    String? pin;
+    do {
+      invalidPin = false;
+      try {
+        response = await requestDio.post(
+          ApiRoute.prepareUpload.target(target, query: {
+            if (pin != null) 'pin': pin,
+          }),
+          data: jsonEncode(requestDto), // jsonEncode for better logging
+          cancelToken: cancelToken,
         );
-      } else if (e is DioException && e.response?.statusCode == 409) {
-        state = state.updateSession(
-          sessionId: sessionId,
-          state: (s) => s?.copyWith(
-            status: SessionStatus.recipientBusy,
-          ),
-        );
-      } else {
+      } on DioException catch (e) {
+        switch (e.response?.statusCode) {
+          case 401:
+            invalidPin = true;
+
+            // wait until animation is finished
+            await sleepAsync(500);
+
+            // ignore: use_build_context_synchronously
+            pin = await showDialog<String>(
+              context: Routerino.context,
+              builder: (_) => PinDialog(
+                obscureText: true,
+                showInvalidPin: !pinFirstAttempt,
+              ),
+            );
+
+            pinFirstAttempt = false;
+
+            if (pin == null) {
+              state = state.updateSession(
+                sessionId: sessionId,
+                state: (s) => s?.copyWith(
+                  status: SessionStatus.canceledBySender,
+                ),
+              );
+              return;
+            }
+            break;
+          case 403:
+            state = state.updateSession(
+              sessionId: sessionId,
+              state: (s) => s?.copyWith(
+                status: SessionStatus.declined,
+              ),
+            );
+            return;
+          case 409:
+            state = state.updateSession(
+              sessionId: sessionId,
+              state: (s) => s?.copyWith(
+                status: SessionStatus.recipientBusy,
+              ),
+            );
+            return;
+          case 429:
+            state = state.updateSession(
+              sessionId: sessionId,
+              state: (s) => s?.copyWith(
+                status: SessionStatus.tooManyAttempts,
+              ),
+            );
+            return;
+          default:
+            state = state.updateSession(
+              sessionId: sessionId,
+              state: (s) => s?.copyWith(
+                status: SessionStatus.finishedWithErrors,
+                errorMessage: e.humanErrorMessage,
+              ),
+            );
+            return;
+        }
+      } catch (e) {
         state = state.updateSession(
           sessionId: sessionId,
           state: (s) => s?.copyWith(
@@ -152,7 +217,11 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
             errorMessage: e.humanErrorMessage,
           ),
         );
+        return;
       }
+    } while (invalidPin);
+
+    if (response == null) {
       return;
     }
 
@@ -246,6 +315,7 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
       state: (s) => s?.copyWith(startTime: DateTime.now().millisecondsSinceEpoch),
     );
 
+    final uriContent = UriContent();
     for (final file in files.values) {
       final token = file.token;
       if (token == null) {
@@ -282,7 +352,11 @@ class SendNotifier extends Notifier<Map<String, SendSessionState>> {
               'Content-Type': file.file.lookupMime(),
             },
           ),
-          data: file.path != null ? File(file.path!).openRead().asBroadcastStream() : file.bytes!,
+          data: file.path != null
+              ? file.path!.startsWith('content://')
+                  ? uriContent.getContentStream(Uri.parse(file.path!))
+                  : File(file.path!).openRead().asBroadcastStream()
+              : file.bytes!,
           onSendProgress: (curr, total) {
             if (stopwatch.elapsedMilliseconds >= 100) {
               stopwatch.reset();

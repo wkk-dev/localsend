@@ -237,6 +237,7 @@ class _StringsSendPageTr extends _StringsSendPageEn {
 	// Translations
 	@override String get waiting => 'Alıcıdan cevap bekleniyor...';
 	@override String get rejected => 'Alıcı isteği reddetti.';
+	@override String get tooManyAttempts => _root.web.tooManyAttempts;
 	@override String get busy => 'Alıcı başka bir istekle meşgul.';
 }
 
@@ -272,6 +273,8 @@ class _StringsWebSharePageTr extends _StringsWebSharePageEn {
 	@override String get noRequests => 'Henüz istek yok.';
 	@override String get encryption => _root.settingsTab.network.encryption;
 	@override String get autoAccept => 'İstekleri otomatik olarak kabul et';
+	@override String get requirePin => 'PIN gerektir';
+	@override String pinHint({required Object pin}) => 'PIN "${pin}"';
 	@override String get encryptionHint => 'LocalSend, tarayıcıda kabul etmeniz gereken kendi-üretimli bir sertifika kullanır.';
 	@override String pendingRequests({required Object n}) => 'Bekleyen istekler: ${n}';
 }
@@ -353,6 +356,7 @@ class _StringsDialogsTr extends _StringsDialogsEn {
 	@override late final _StringsDialogsQrTr qr = _StringsDialogsQrTr._(_root);
 	@override late final _StringsDialogsQuickActionsTr quickActions = _StringsDialogsQuickActionsTr._(_root);
 	@override late final _StringsDialogsQuickSaveNoticeTr quickSaveNotice = _StringsDialogsQuickSaveNoticeTr._(_root);
+	@override late final _StringsDialogsPinTr pin = _StringsDialogsPinTr._(_root);
 	@override late final _StringsDialogsSendModeHelpTr sendModeHelp = _StringsDialogsSendModeHelpTr._(_root);
 	@override late final _StringsDialogsZoomTr zoom = _StringsDialogsZoomTr._(_root);
 }
@@ -387,6 +391,9 @@ class _StringsWebTr extends _StringsWebEn {
 
 	// Translations
 	@override String get waiting => _root.sendPage.waiting;
+	@override String get enterPin => 'PIN girin';
+	@override String get invalidPin => 'Geçersiz PIN';
+	@override String get tooManyAttempts => 'Çok fazla deneme';
 	@override String get rejected => 'Reddedildi';
 	@override String get files => 'Dosyalar';
 	@override String get fileName => 'Dosya adı';
@@ -499,6 +506,7 @@ class _StringsSettingsTabGeneralTr extends _StringsSettingsTabGeneralEn {
 	@override String get minimizeToTray => 'Çıkış: Simge durumuna küçült';
 	@override String get launchAtStartup => 'Giriş yapıldıktan sonra otomatik başlat';
 	@override String get launchMinimized => 'Otomatik başlatma: Gizli Başlatma';
+	@override String get showInContextMenu => 'LocalSend\'i bağlam menüsünde göster';
 	@override String get animations => 'Animasyonlar';
 }
 
@@ -511,6 +519,7 @@ class _StringsSettingsTabReceiveTr extends _StringsSettingsTabReceiveEn {
 	// Translations
 	@override String get title => 'Alım';
 	@override String get quickSave => _root.general.quickSave;
+	@override String get requirePin => _root.webSharePage.requirePin;
 	@override String get autoFinish => 'Otomatik bitir';
 	@override String get destination => 'Hedef klasör';
 	@override String get downloads => '(İndirilenler)';
@@ -595,6 +604,7 @@ class _StringsReceiveHistoryPageEntryActionsTr extends _StringsReceiveHistoryPag
 
 	// Translations
 	@override String get open => 'Dosya aç';
+	@override String get showInFolder => 'Klasörde göster';
 	@override String get info => 'Bilgi';
 	@override String get deleteFromHistory => 'Geçmişten sil';
 }
@@ -844,6 +854,16 @@ class _StringsDialogsQuickSaveNoticeTr extends _StringsDialogsQuickSaveNoticeEn 
 	// Translations
 	@override String get title => _root.general.quickSave;
 	@override String get content => 'Dosya gönderim istekleri otomatik olarak gerçekleşir. Yerel ağınızdaki herkesin size dosya gönderebileceğinin farkında olunuz.';
+}
+
+// Path: dialogs.pin
+class _StringsDialogsPinTr extends _StringsDialogsPinEn {
+	_StringsDialogsPinTr._(_StringsTr root) : this._root = root, super._(root);
+
+	@override final _StringsTr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'PIN girin';
 }
 
 // Path: dialogs.sendModeHelp

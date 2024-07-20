@@ -84,7 +84,7 @@ class _StringsGeneralRo extends _StringsGeneralEn {
 	@override String get online => 'Online';
 	@override String get open => 'Deschide';
 	@override String get queue => 'Coadă';
-	@override String get quickSave => 'Salvare Repede';
+	@override String get quickSave => 'Salvare Rapidă';
 	@override String get renamed => 'Redenumit';
 	@override String get reset => 'Resetare';
 	@override String get restart => 'Repornire';
@@ -126,7 +126,7 @@ class _StringsSendTabRo extends _StringsSendTabEn {
 	@override String get sendMode => 'Mod de trimitere';
 	@override late final _StringsSendTabSendModesRo sendModes = _StringsSendTabSendModesRo._(_root);
 	@override String get sendModeHelp => 'Explicație';
-	@override String get help => 'Verificați dacă destinația dorită se află în aceeași rețea Wi-Fi.';
+	@override String get help => 'Verificați dacă destinația se află în aceeași rețea Wi-Fi.';
 	@override String get placeItems => 'Adaugă lucruri de partajare.';
 }
 
@@ -155,8 +155,8 @@ class _StringsTroubleshootPageRo extends _StringsTroubleshootPageEn {
 	// Translations
 	@override String get title => 'Depanare';
 	@override String get subTitle => 'Aplicația nu funcționează așa cum trebuie? Aici poți găsi câteva soluții comune.';
-	@override String get solution => 'Soluție:';
-	@override String get fixButton => 'Rezolvă automat';
+	@override String get solution => 'Soluția:';
+	@override String get fixButton => 'Rezolvă automată';
 	@override late final _StringsTroubleshootPageFirewallRo firewall = _StringsTroubleshootPageFirewallRo._(_root);
 	@override late final _StringsTroubleshootPageNoConnectionRo noConnection = _StringsTroubleshootPageNoConnectionRo._(_root);
 }
@@ -225,7 +225,7 @@ class _StringsReceiveOptionsPageRo extends _StringsReceiveOptionsPageEn {
 	@override String get destination => _root.settingsTab.receive.destination;
 	@override String get appDirectory => '(Dosarul LocalSend)';
 	@override String get saveToGallery => _root.settingsTab.receive.saveToGallery;
-	@override String get saveToGalleryOff => 'Dezactivat automat deoarece există directoare.';
+	@override String get saveToGalleryOff => 'Dezactivat automat deoarece există foldere.';
 }
 
 // Path: sendPage
@@ -237,6 +237,7 @@ class _StringsSendPageRo extends _StringsSendPageEn {
 	// Translations
 	@override String get waiting => 'Aștept răspuns...';
 	@override String get rejected => 'Recipientul a respins cererea.';
+	@override String get tooManyAttempts => _root.web.tooManyAttempts;
 	@override String get busy => 'Recipientul este ocupat cu o altă cerere.';
 }
 
@@ -261,8 +262,8 @@ class _StringsWebSharePageRo extends _StringsWebSharePageEn {
 
 	// Translations
 	@override String get title => 'Partajează prin link';
-	@override String get loading => 'Pornim serverul...';
-	@override String get stopping => 'Oprim serverul...';
+	@override String get loading => 'Să pornim serverul...';
+	@override String get stopping => 'Să oprim serverul...';
 	@override String get error => 'A apărut o eroare la pornirea serverului.';
 	@override String openLink({required num n}) => (_root.$meta.cardinalResolver ?? PluralResolvers.cardinal('ro'))(n,
 		one: 'Deschide acest link în browserul tău:',
@@ -272,6 +273,8 @@ class _StringsWebSharePageRo extends _StringsWebSharePageEn {
 	@override String get noRequests => 'Nicio cerere încă.';
 	@override String get encryption => _root.settingsTab.network.encryption;
 	@override String get autoAccept => 'Acceptă automat cererile';
+	@override String get requirePin => 'Solicită PIN';
+	@override String pinHint({required Object pin}) => 'PIN-ul este "${pin}"';
 	@override String get encryptionHint => 'LocalSend folosește un certificat auto-semnat. Trebuie să-l accepți în browserul tău.';
 	@override String pendingRequests({required Object n}) => 'Cererile în așteptare: ${n}';
 }
@@ -325,67 +328,67 @@ class _StringsAliasGeneratorRo extends _StringsAliasGeneratorEn {
 
 	// Translations
 	@override List<String> get adjectives => [
-		'Adorabil',
-		'Frumos',
+		'Adorabilă',
+		'Frumoasă',
 		'Mare',
-		'Strălucitor',
-		'Curat',
-		'Deștept',
+		'Strălucitoare',
+		'Curată',
+		'Deșteaptă',
 		'Cool',
-		'Drăguț',
-		'Viclean',
-		'Determinant',
-		'Energic',
-		'Eficient',
-		'Fantastic',
+		'Drăguță',
+		'Vicleană',
+		'Determinantă',
+		'Energică',
+		'Eficientă',
+		'Fantastică',
 		'Repede',
 		'Bine',
-		'Proaspăt',
-		'Bun',
-		'Superb',
-		'Grozav',
-		'Chipeș',
+		'Sănătoasă',
+		'Proaspătă',
+		'Bună',
+		'Superbă',
+		'Grozavă',
+		'Coaptă',
 		'Fierbinte',
-		'Amabil',
-		'Iubitor',
-		'Mistic',
-		'Ordine',
-		'Plăcut',
-		'Răbdător',
-		'Frumușel',
-		'Puternic',
-		'Bogăție',
-		'Secret',
-		'Inteligent',
-		'Solid',
-		'Special',
-		'Strategic',
-		'Puternic',
-		'Înțelept',
+		'Amabilă',
+		'Iubitoare',
+		'Mistică',
+		'îngrijită',
+		'Plăcută',
+		'Răbdătoare',
+		'Frumușică',
+		'Puternică',
+		'Delicioasă',
+		'Secretă',
+		'Inteligentă',
+		'Solidă',
+		'Specială',
+		'Strategică',
+		'Aromată',
+		'Înțeleaptă',
 	];
 	@override List<String> get fruits => [
-		'Măr',
-		'Avocado',
-		'Banana',
-		'Mure',
-		'Afine',
-		'Broccoli',
-		'Morcov',
+		'Caisă',
+		'Gutuie',
+		'Banană',
+		'Mură',
+		'Nucă',
+		'Afină',
+		'Vișină',
 		'Cireașă',
-		'Cocos',
-		'Strugure',
 		'Lămâie',
 		'Salată',
-		'Mango',
-		'Pepene',
+		'Fasole',
+		'Conopidă',
 		'Ciupercă',
 		'Ceapă',
 		'Portocală',
 		'Piersică',
 		'Pară',
-		'Ananas',
-		'Cartof',
-		'Dovleac',
+		'Varză',
+		'Mazăre',
+		'Prună',
+		'Rodie',
 		'Zmeură',
 		'Căpșună',
 		'Roșie',
@@ -422,6 +425,7 @@ class _StringsDialogsRo extends _StringsDialogsEn {
 	@override late final _StringsDialogsQrRo qr = _StringsDialogsQrRo._(_root);
 	@override late final _StringsDialogsQuickActionsRo quickActions = _StringsDialogsQuickActionsRo._(_root);
 	@override late final _StringsDialogsQuickSaveNoticeRo quickSaveNotice = _StringsDialogsQuickSaveNoticeRo._(_root);
+	@override late final _StringsDialogsPinRo pin = _StringsDialogsPinRo._(_root);
 	@override late final _StringsDialogsSendModeHelpRo sendModeHelp = _StringsDialogsSendModeHelpRo._(_root);
 	@override late final _StringsDialogsZoomRo zoom = _StringsDialogsZoomRo._(_root);
 }
@@ -456,6 +460,9 @@ class _StringsWebRo extends _StringsWebEn {
 
 	// Translations
 	@override String get waiting => _root.sendPage.waiting;
+	@override String get enterPin => 'Introdu PIN-ul';
+	@override String get invalidPin => 'PIN-ul introdus este greșit';
+	@override String get tooManyAttempts => 'Prea multe încercări';
 	@override String get rejected => 'Respins';
 	@override String get files => 'Fișiere';
 	@override String get fileName => 'Numele fișierului';
@@ -565,9 +572,10 @@ class _StringsSettingsTabGeneralRo extends _StringsSettingsTabGeneralEn {
 	@override String get language => 'Limba';
 	@override late final _StringsSettingsTabGeneralLanguageOptionsRo languageOptions = _StringsSettingsTabGeneralLanguageOptionsRo._(_root);
 	@override String get saveWindowPlacement => 'Închidere: Salvează plasarea ferestrei';
-	@override String get minimizeToTray => 'Închidere: Minimizează în bara de Meniuri/Tray';
+	@override String get minimizeToTray => 'Închidere: Minimizează în Bara de Meniuri/Tray';
 	@override String get launchAtStartup => 'Autopornire după logare';
 	@override String get launchMinimized => 'Autopornire: Pornire ascunsă';
+	@override String get showInContextMenu => 'Afișează LocalSend în meniul contextual';
 	@override String get animations => 'Animații';
 }
 
@@ -580,11 +588,12 @@ class _StringsSettingsTabReceiveRo extends _StringsSettingsTabReceiveEn {
 	// Translations
 	@override String get title => 'Primire';
 	@override String get quickSave => _root.general.quickSave;
+	@override String get requirePin => _root.webSharePage.requirePin;
 	@override String get autoFinish => 'Finisare automată';
 	@override String get destination => 'Destinație';
 	@override String get downloads => '(Descărcări)';
 	@override String get saveToGallery => 'Salvează media în galerie';
-	@override String get saveToHistory => 'Salvează în istoric';
+	@override String get saveToHistory => 'Salvează în istorie';
 }
 
 // Path: settingsTab.send
@@ -641,7 +650,7 @@ class _StringsTroubleshootPageFirewallRo extends _StringsTroubleshootPageFirewal
 
 	// Translations
 	@override String get symptom => 'Această aplicație poate trimite fișiere la alte dispozitive, dar alte dispozitive nu pot trimite fișiere de pe acest dispozitiv.';
-	@override String solution({required Object port}) => 'Cel mai probabil problema este le la firewall. Poți rezolva această problemă permițând conexiunile de intrare (UDP și TCP) pe portul ${port}.';
+	@override String solution({required Object port}) => 'Cel mai probabil problema este de la firewall. Poți rezolva această problemă permițând conexiunile de intrare (UDP și TCP) pe portul ${port}.';
 	@override String get openFirewall => 'Deschide Firewall';
 }
 
@@ -664,6 +673,7 @@ class _StringsReceiveHistoryPageEntryActionsRo extends _StringsReceiveHistoryPag
 
 	// Translations
 	@override String get open => 'Deschide fișierul';
+	@override String get showInFolder => 'Afișează în dosar';
 	@override String get info => 'Informații';
 	@override String get deleteFromHistory => 'Șterge din istoric';
 }
@@ -712,8 +722,8 @@ class _StringsDialogsCancelSessionRo extends _StringsDialogsCancelSessionEn {
 	@override final _StringsRo _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Anulează transferul de fișiere';
-	@override String get content => 'Chiar vrei să anulezi transferul de fișiere?';
+	@override String get title => 'Anularea transferului';
+	@override String get content => 'Chiar vrei să anulezi transferul cu fișiere?';
 }
 
 // Path: dialogs.cannotOpenFile
@@ -724,7 +734,7 @@ class _StringsDialogsCannotOpenFileRo extends _StringsDialogsCannotOpenFileEn {
 
 	// Translations
 	@override String get title => 'Nu se poate deschide fișierul';
-	@override String content({required Object file}) => 'Nu s-a putut deschide \"${file}\". A fost mutat, redenumit sau șters acest fișier?';
+	@override String content({required Object file}) => 'Nu s-a putut deschide \"${file}\". A fost mutat, redenumit sau șters?';
 }
 
 // Path: dialogs.encryptionDisabledNotice
@@ -842,7 +852,7 @@ class _StringsDialogsMessageInputRo extends _StringsDialogsMessageInputEn {
 	@override final _StringsRo _root; // ignore: unused_field
 
 	// Translations
-	@override String get title => 'Scrie mesaj';
+	@override String get title => 'Scrie un mesaj';
 	@override String get multiline => 'Multilinie';
 }
 
@@ -913,6 +923,16 @@ class _StringsDialogsQuickSaveNoticeRo extends _StringsDialogsQuickSaveNoticeEn 
 	// Translations
 	@override String get title => _root.general.quickSave;
 	@override String get content => 'Cereri de fișiere sunt acceptate automat. Fii atent oricine din rețeaua locală îți poate trimite fișiere.';
+}
+
+// Path: dialogs.pin
+class _StringsDialogsPinRo extends _StringsDialogsPinEn {
+	_StringsDialogsPinRo._(_StringsRo root) : this._root = root, super._(root);
+
+	@override final _StringsRo _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Introdu PIN-ul';
 }
 
 // Path: dialogs.sendModeHelp

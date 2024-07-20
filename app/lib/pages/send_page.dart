@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:collection/collection.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:localsend_app/gen/strings.g.dart';
@@ -8,6 +7,7 @@ import 'package:localsend_app/provider/device_info_provider.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/network/send_provider.dart';
 import 'package:localsend_app/theme.dart';
+import 'package:localsend_app/util/favorites.dart';
 import 'package:localsend_app/util/native/taskbar_helper.dart';
 import 'package:localsend_app/widget/animations/initial_fade_transition.dart';
 import 'package:localsend_app/widget/animations/initial_slide_transition.dart';
@@ -68,7 +68,7 @@ class _SendPageState extends State<SendPage> with Refena {
     }
     final myDevice = ref.watch(deviceFullInfoProvider);
     final targetDevice = sendState?.target ?? _targetDevice!;
-    final targetFavoriteEntry = ref.watch(favoritesProvider).firstWhereOrNull((e) => e.fingerprint == targetDevice.fingerprint);
+    final targetFavoriteEntry = ref.watch(favoritesProvider.select((state) => state.findDevice(targetDevice)));
     final waiting = sendState?.status == SessionStatus.waiting;
 
     if (sendState?.status == SessionStatus.declined || sendState?.status == SessionStatus.finishedWithErrors) {
@@ -127,50 +127,57 @@ class _SendPageState extends State<SendPage> with Refena {
                         delay: const Duration(milliseconds: 400),
                         child: Column(
                           children: [
-                            if (sendState.status == SessionStatus.waiting)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(t.sendPage.waiting, textAlign: TextAlign.center),
-                              )
-                            else if (sendState.status == SessionStatus.declined)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.rejected,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.warning),
-                                  textAlign: TextAlign.center,
+                            switch (sendState.status) {
+                              SessionStatus.waiting => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Text(t.sendPage.waiting, textAlign: TextAlign.center),
                                 ),
-                              )
-                            else if (sendState.status == SessionStatus.recipientBusy)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.busy,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.warning),
-                                  textAlign: TextAlign.center,
+                              SessionStatus.declined => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Text(
+                                    t.sendPage.rejected,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              )
-                            else if (sendState.status == SessionStatus.finishedWithErrors)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(t.general.error, style: TextStyle(color: Theme.of(context).colorScheme.warning)),
-                                    if (sendState.errorMessage != null)
-                                      TextButton(
-                                        style: TextButton.styleFrom(
-                                          foregroundColor: Theme.of(context).colorScheme.warning,
+                              SessionStatus.tooManyAttempts => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Text(
+                                    t.sendPage.tooManyAttempts,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              SessionStatus.recipientBusy => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Text(
+                                    t.sendPage.busy,
+                                    style: TextStyle(color: Theme.of(context).colorScheme.warning),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ),
+                              SessionStatus.finishedWithErrors => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(t.general.error, style: TextStyle(color: Theme.of(context).colorScheme.warning)),
+                                      if (sendState.errorMessage != null)
+                                        TextButton(
+                                          style: TextButton.styleFrom(
+                                            foregroundColor: Theme.of(context).colorScheme.warning,
+                                          ),
+                                          onPressed: () async => showDialog(
+                                            context: context,
+                                            builder: (_) => ErrorDialog(error: sendState.errorMessage!),
+                                          ),
+                                          child: const Icon(Icons.info),
                                         ),
-                                        onPressed: () async => showDialog(
-                                          context: context,
-                                          builder: (_) => ErrorDialog(error: sendState.errorMessage!),
-                                        ),
-                                        child: const Icon(Icons.info),
-                                      ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
+                              _ => const SizedBox(),
+                            },
                             Center(
                               child: FilledButton.icon(
                                 onPressed: () {

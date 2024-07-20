@@ -237,6 +237,7 @@ class _StringsSendPageSr extends _StringsSendPageEn {
 	// Translations
 	@override String get waiting => 'Čekam odgovor...';
 	@override String get rejected => 'Primalac je odbio zahtev.';
+	@override String get tooManyAttempts => _root.web.tooManyAttempts;
 	@override String get busy => 'Primalac je zauzet nekim drugim zahtevom za slanje.';
 }
 
@@ -272,6 +273,8 @@ class _StringsWebSharePageSr extends _StringsWebSharePageEn {
 	@override String get noRequests => 'Nema zahteva još uvek.';
 	@override String get encryption => _root.settingsTab.network.encryption;
 	@override String get autoAccept => 'Automatski prihvati zahteve';
+	@override String get requirePin => 'Potreban PIN';
+	@override String pinHint({required Object pin}) => 'PIN je "${pin}"';
 	@override String get encryptionHint => 'LocalSend koristi sertifikate koji su self-signed. Morate da prihvatite to u browseru.';
 	@override String pendingRequests({required Object n}) => 'Zahtevi na čekanju: ${n}';
 }
@@ -424,6 +427,7 @@ class _StringsDialogsSr extends _StringsDialogsEn {
 	@override late final _StringsDialogsQrSr qr = _StringsDialogsQrSr._(_root);
 	@override late final _StringsDialogsQuickActionsSr quickActions = _StringsDialogsQuickActionsSr._(_root);
 	@override late final _StringsDialogsQuickSaveNoticeSr quickSaveNotice = _StringsDialogsQuickSaveNoticeSr._(_root);
+	@override late final _StringsDialogsPinSr pin = _StringsDialogsPinSr._(_root);
 	@override late final _StringsDialogsSendModeHelpSr sendModeHelp = _StringsDialogsSendModeHelpSr._(_root);
 	@override late final _StringsDialogsZoomSr zoom = _StringsDialogsZoomSr._(_root);
 }
@@ -458,6 +462,9 @@ class _StringsWebSr extends _StringsWebEn {
 
 	// Translations
 	@override String get waiting => _root.sendPage.waiting;
+	@override String get enterPin => 'Unesi PIN';
+	@override String get invalidPin => 'Neispravan PIN';
+	@override String get tooManyAttempts => 'Previše pokušaja';
 	@override String get rejected => 'Odbijeno';
 	@override String get files => 'Fajlovi';
 	@override String get fileName => 'Ime fajla';
@@ -570,6 +577,7 @@ class _StringsSettingsTabGeneralSr extends _StringsSettingsTabGeneralEn {
 	@override String get minimizeToTray => 'Izadji: Minimizuj u Tray/MenuBar';
 	@override String get launchAtStartup => 'Autostartuj posle login-a';
 	@override String get launchMinimized => 'Autostartuj: Start sakriven';
+	@override String get showInContextMenu => 'Prikaži LocalSend u kontekst meniju';
 	@override String get animations => 'Animacije';
 }
 
@@ -582,6 +590,7 @@ class _StringsSettingsTabReceiveSr extends _StringsSettingsTabReceiveEn {
 	// Translations
 	@override String get title => 'Primanje';
 	@override String get quickSave => _root.general.quickSave;
+	@override String get requirePin => _root.webSharePage.requirePin;
 	@override String get autoFinish => 'Automatski završi';
 	@override String get destination => 'Destinacija';
 	@override String get downloads => '(Downloads)';
@@ -666,6 +675,7 @@ class _StringsReceiveHistoryPageEntryActionsSr extends _StringsReceiveHistoryPag
 
 	// Translations
 	@override String get open => 'Otvori fajl';
+	@override String get showInFolder => 'Prikaži u folderu';
 	@override String get info => 'Informacije';
 	@override String get deleteFromHistory => 'Obriši iz Istorije.';
 }
@@ -915,6 +925,16 @@ class _StringsDialogsQuickSaveNoticeSr extends _StringsDialogsQuickSaveNoticeEn 
 	// Translations
 	@override String get title => _root.general.quickSave;
 	@override String get content => 'Zahtevi za slanje fajlova su automatski prihvaćeni. Primite k znanju da bilo ko na lokalnoj mreži može da vam pošalje fajl.';
+}
+
+// Path: dialogs.pin
+class _StringsDialogsPinSr extends _StringsDialogsPinEn {
+	_StringsDialogsPinSr._(_StringsSr root) : this._root = root, super._(root);
+
+	@override final _StringsSr _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => 'Unesi PIN';
 }
 
 // Path: dialogs.sendModeHelp

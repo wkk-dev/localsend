@@ -237,6 +237,7 @@ class _StringsSendPageZhCn extends _StringsSendPageEn {
 	// Translations
 	@override String get waiting => '等待响应中……';
 	@override String get rejected => '对方拒绝了请求。';
+	@override String get tooManyAttempts => _root.web.tooManyAttempts;
 	@override String get busy => '对方正在处理另一个请求。';
 }
 
@@ -272,8 +273,10 @@ class _StringsWebSharePageZhCn extends _StringsWebSharePageEn {
 	@override String get noRequests => '尚无请求。';
 	@override String get encryption => _root.settingsTab.network.encryption;
 	@override String get autoAccept => '自动接受请求';
-	@override String get encryptionHint => 'LocalSend 使用自签名证书，您需要在浏览器中允许它。';
-	@override String pendingRequests({required Object n}) => '待处理请求: ${n}';
+	@override String get requirePin => '需要一个 PIN';
+	@override String pinHint({required Object pin}) => 'PIN 为 “${pin}”';
+	@override String get encryptionHint => 'LocalSend 使用自签名证书。您需要在浏览器中允许它。';
+	@override String pendingRequests({required Object n}) => '待处理请求：${n}';
 }
 
 // Path: aboutPage
@@ -422,6 +425,7 @@ class _StringsDialogsZhCn extends _StringsDialogsEn {
 	@override late final _StringsDialogsQrZhCn qr = _StringsDialogsQrZhCn._(_root);
 	@override late final _StringsDialogsQuickActionsZhCn quickActions = _StringsDialogsQuickActionsZhCn._(_root);
 	@override late final _StringsDialogsQuickSaveNoticeZhCn quickSaveNotice = _StringsDialogsQuickSaveNoticeZhCn._(_root);
+	@override late final _StringsDialogsPinZhCn pin = _StringsDialogsPinZhCn._(_root);
 	@override late final _StringsDialogsSendModeHelpZhCn sendModeHelp = _StringsDialogsSendModeHelpZhCn._(_root);
 	@override late final _StringsDialogsZoomZhCn zoom = _StringsDialogsZoomZhCn._(_root);
 }
@@ -433,8 +437,8 @@ class _StringsSanitizationZhCn extends _StringsSanitizationEn {
 	@override final _StringsZhCn _root; // ignore: unused_field
 
 	// Translations
-	@override String get empty => '文件名不能为空';
-	@override String get invalid => '文件名包含无效字符';
+	@override String get empty => '文件名不能为空。';
+	@override String get invalid => '文件名包含无效字符。';
 }
 
 // Path: tray
@@ -456,6 +460,9 @@ class _StringsWebZhCn extends _StringsWebEn {
 
 	// Translations
 	@override String get waiting => _root.sendPage.waiting;
+	@override String get enterPin => '输入 PIN';
+	@override String get invalidPin => 'PIN 无效';
+	@override String get tooManyAttempts => '尝试次数过多，请稍后再试。';
 	@override String get rejected => '已拒绝';
 	@override String get files => '文件';
 	@override String get fileName => '文件名';
@@ -568,6 +575,7 @@ class _StringsSettingsTabGeneralZhCn extends _StringsSettingsTabGeneralEn {
 	@override String get minimizeToTray => '关闭时：最小化到系统托盘';
 	@override String get launchAtStartup => '登录系统后自动启动程序';
 	@override String get launchMinimized => '静默自启：只启动托盘服务';
+	@override String get showInContextMenu => '在“发送到”文件菜单中显示 LocalSend';
 	@override String get animations => '动画效果';
 }
 
@@ -580,6 +588,7 @@ class _StringsSettingsTabReceiveZhCn extends _StringsSettingsTabReceiveEn {
 	// Translations
 	@override String get title => '接收';
 	@override String get quickSave => _root.general.quickSave;
+	@override String get requirePin => _root.webSharePage.requirePin;
 	@override String get autoFinish => '自动完成';
 	@override String get destination => '保存目录';
 	@override String get downloads => '(下载)';
@@ -664,6 +673,7 @@ class _StringsReceiveHistoryPageEntryActionsZhCn extends _StringsReceiveHistoryP
 
 	// Translations
 	@override String get open => '打开文件';
+	@override String get showInFolder => '在文件管理器中显示';
 	@override String get info => '信息';
 	@override String get deleteFromHistory => '从历史记录中删除';
 }
@@ -724,7 +734,7 @@ class _StringsDialogsCannotOpenFileZhCn extends _StringsDialogsCannotOpenFileEn 
 
 	// Translations
 	@override String get title => '无法打开文件';
-	@override String content({required Object file}) => '无法打开 "${file}"。这个文件是否已被移动、重命名或删除？';
+	@override String content({required Object file}) => '无法打开 “${file}”。这个文件是否已被移动、重命名或删除？';
 }
 
 // Path: dialogs.encryptionDisabledNotice
@@ -768,7 +778,7 @@ class _StringsDialogsFavoriteDeleteDialogZhCn extends _StringsDialogsFavoriteDel
 
 	// Translations
 	@override String get title => '删除收藏';
-	@override String content({required Object name}) => '确定要取消收藏 "${name}" 吗?';
+	@override String content({required Object name}) => '确定要取消收藏 “${name}” 吗?';
 }
 
 // Path: dialogs.favoriteEditDialog
@@ -913,6 +923,16 @@ class _StringsDialogsQuickSaveNoticeZhCn extends _StringsDialogsQuickSaveNoticeE
 	// Translations
 	@override String get title => _root.general.quickSave;
 	@override String get content => '自动接受所有文件传输请求。请注意，这会让此网络中的所有人都可以向你发送文件。';
+}
+
+// Path: dialogs.pin
+class _StringsDialogsPinZhCn extends _StringsDialogsPinEn {
+	_StringsDialogsPinZhCn._(_StringsZhCn root) : this._root = root, super._(root);
+
+	@override final _StringsZhCn _root; // ignore: unused_field
+
+	// Translations
+	@override String get title => '输入 PIN';
 }
 
 // Path: dialogs.sendModeHelp

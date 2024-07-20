@@ -10,11 +10,13 @@ import 'package:localsend_app/model/state/send/web/web_send_file.dart';
 import 'package:localsend_app/model/state/send/web/web_send_session.dart';
 import 'package:localsend_app/model/state/send/web/web_send_state.dart';
 import 'package:localsend_app/provider/device_info_provider.dart';
+import 'package:localsend_app/provider/network/server/controller/common.dart';
 import 'package:localsend_app/provider/network/server/server_utils.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
 import 'package:localsend_app/util/api_route_builder.dart';
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
+import 'package:uri_content/uri_content.dart';
 import 'package:uuid/uuid.dart';
 
 const _uuid = Uuid();
@@ -60,6 +62,9 @@ class SendController {
 
       return server.responseJson(200, body: {
         'waiting': t.web.waiting,
+        'enterPin': t.web.enterPin,
+        'invalidPin': t.web.invalidPin,
+        'tooManyAttempts': t.web.tooManyAttempts,
         'rejected': t.web.rejected,
         'files': t.web.files,
         'fileName': t.web.fileName,
@@ -96,6 +101,16 @@ class SendController {
                 },
               ).toJson());
         }
+      }
+
+      final pinResponse = handlePin(
+        server: server,
+        pin: state.webSendState!.pin,
+        pinAttempts: state.webSendState!.pinAttempts,
+        request: request,
+      );
+      if (pinResponse != null) {
+        return pinResponse;
       }
 
       final streamController = StreamController<bool>();
@@ -197,11 +212,20 @@ class SendController {
           headers: headers,
         );
       } else {
-        return Response(
-          200,
-          body: File(file.path!).openRead().asBroadcastStream(),
-          headers: headers,
-        );
+        final path = file.path!;
+        if (path.startsWith('content://')) {
+          return Response(
+            200,
+            body: UriContent().getContentStream(Uri.parse(file.path!)),
+            headers: headers,
+          );
+        } else {
+          return Response(
+            200,
+            body: File(file.path!).openRead().asBroadcastStream(),
+            headers: headers,
+          );
+        }
       }
     });
   }
@@ -223,6 +247,12 @@ class SendController {
               preview: files.first.fileType == FileType.text && files.first.bytes != null
                   ? utf8.decode(files.first.bytes!) // send simple message by embedding it into the preview
                   : null,
+              metadata: file.lastModified != null || file.lastAccessed != null
+                  ? FileMetadata(
+                      lastModified: file.lastModified,
+                      lastAccessed: file.lastAccessed,
+                    )
+                  : null,
               legacy: false,
             ),
             asset: file.asset,
@@ -232,6 +262,8 @@ class SendController {
         );
       }))),
       autoAccept: server.ref.read(settingsProvider).shareViaLinkAutoAccept,
+      pin: null,
+      pinAttempts: {},
     );
 
     server.setState(
